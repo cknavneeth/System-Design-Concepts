@@ -1,0 +1,47 @@
+Example formula many system use | server = hash(user) % number of servers
+
+so users are not assigned forever to a server.
+they are assigned using formula.
+when server count change formula result change then mapping breaks.
+
+how consistent hashing resolves this?
+
+imagine the ring is numbers from 0 to 99.
+i will place three servers and three users.
+
+server positions(these are hashed positions ,assume already computed)
+
+s0-10
+s1-40 
+s2-80
+
+user positions
+
+userA-20
+userB-45
+userC-90
+
+now map each user
+
+userA(20)-go clockwise :next server at 40 ->s1
+
+userB(45)-next server at 80 -> s2
+
+userC(90)-wrap around to first server at 10 -> s0
+
+now the problem: what if i add a new server s3?
+
+s0-10
+s3-30
+s1-40 
+s2-80
+
+remap users will happen!
+
+userA(20)-go clockwise next is s3(30) -> moved from s1 to s3 !!!
+
+userB(45)-next is s2(80) -> still s2(unchanged) !!!
+
+userC(90)->wrap to s0->still s0 (unchanged) !!!
+
+

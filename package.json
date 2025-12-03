@@ -1,0 +1,15 @@
+{
+  "name": "systemdesign",
+  "version": "1.0.0",
+  "main": "consistentHashing.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "crypto": "^1.0.1"
+  }
+}
