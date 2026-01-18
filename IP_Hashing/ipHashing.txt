@@ -1,0 +1,109 @@
+
+BIG PICTURE
+-----------
+
+when a request comes , which server should handle it ?
+ip hashing is one way to decide that
+
+1.Nginx ip_hash
+---------------
+client -> Nginx -> Multiple backend servers
+
+server A , server B , server C
+
+same user => same backend
+
+2.AWS ALB stickiness (cookie based)
+-----------------------------------
+problem aws solves
+
+ip changes a lot in real life
+
+lets not depend on ip then ,
+
+first request = client => ALB => server2
+
+ALB sends a cookie  AWSALB=xyz123
+
+cookie xyz123 => server2 
+
+
+3.Redis Sharding 
+----------------
+problem redis solves
+
+redis cannot store infinite data on one machine 
+
+so , data must be split across servers 
+
+example keys = user101 . user102 , user103
+
+redis client does
+
+hash(key)% total_redis_nodes
+
+user101 => redis A
+user202 => redis B
+
+same key -> same redis server
+
+4.CDN s (Content Delivery Networks)
+-----------------------------------
+problem CDNs solve
+
+user in india should not fetch data from usa
+
+too slow
+
+client ip => nearest edge server
+
+India Ip -> mumbai CDN
+
+Europe Ip -> frankfurt CDN \
+____________________________
+____________________________
+____________________________
+
+
+FORMULA CALCULATION
+-------------------
+
+what is hash << 5
+----------------
+
+<< => left shift (bitwise)
+
+hash << 5
+
+shift all bits of hash to the left by 5 positions
+
+left shift = multiply by power of 2
+
+hash << 1 === hash *2
+hash << 2 === hash *4
+hash << 5 === hash *32
+
+hash <<5 === hash * 32 
+
+step 1 start ("c")
+------------
+
+hash = 0
+
+hash = 0 * 31 + 99
+
+hash = 99
+
+step 2 ("a")
+------------
+
+hash = 99 * 31 + 97
+
+hash = 3166
+
+step 3 add("t")
+---------------
+
+hash = 3166 * 31 + 116
+
+hash = 98262
